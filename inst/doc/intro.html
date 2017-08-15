@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>tidytable1 Introduction</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">tidytable1 Introduction</h1>
+
+
+
+<p>Creates Table1 Descriptive Statistics with tidyverse utils</p>
+<div id="installation" class="section level1">
+<h1>Installation</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;cities-lab/tidytable1&quot;</span>)</code></pre></div>
+</div>
+<div id="usage" class="section level1">
+<h1>Usage</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressMessages</span>(<span class="kw">library</span>(tidytable1))</code></pre></div>
+<pre><code>## Warning: replacing previous import 'dplyr::contains' by 'purrr::contains'
+## when loading 'tidytable1'</code></pre>
+<pre><code>## Warning: replacing previous import 'dplyr::order_by' by 'purrr::order_by'
+## when loading 'tidytable1'</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressMessages</span>(<span class="kw">library</span>(dplyr))
+<span class="kw">suppressMessages</span>(<span class="kw">library</span>(pander))
+
+iris_tbl1 &lt;-<span class="st"> </span><span class="kw">tidytable1</span>(iris,
+                        <span class="dt">calc_cols=</span><span class="kw">list</span>(<span class="dt">n=</span><span class="cf">function</span>(x) <span class="kw">length</span>(x)),
+                        <span class="dt">num_cols=</span><span class="kw">c</span>(<span class="dt">min=</span>min, <span class="dt">median=</span>median, <span class="dt">max=</span>max)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pp_table1</span>(<span class="dt">pp_vars=</span><span class="kw">c</span>(<span class="st">&quot;n&quot;</span>)) 
+
+iris_tbl1 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pander</span>(<span class="dt">missing=</span><span class="st">&quot;&quot;</span>)</code></pre></div>
+<table style="width:85%;">
+<colgroup>
+<col width="18%"></col>
+<col width="8%"></col>
+<col width="12%"></col>
+<col width="8%"></col>
+<col width="15%"></col>
+<col width="9%"></col>
+<col width="8%"></col>
+<col width="4%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Name</th>
+<th align="center">min</th>
+<th align="center">median</th>
+<th align="center">max</th>
+<th align="center">Category</th>
+<th align="center">freq</th>
+<th align="center">%</th>
+<th align="center">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Sepal.Length</td>
+<td align="center">4.3</td>
+<td align="center">5.8</td>
+<td align="center">7.9</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">150</td>
+</tr>
+<tr class="even">
+<td align="center">Sepal.Width</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">4.4</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">150</td>
+</tr>
+<tr class="odd">
+<td align="center">Petal.Length</td>
+<td align="center">1</td>
+<td align="center">4.35</td>
+<td align="center">6.9</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">150</td>
+</tr>
+<tr class="even">
+<td align="center">Petal.Width</td>
+<td align="center">0.1</td>
+<td align="center">1.3</td>
+<td align="center">2.5</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">150</td>
+</tr>
+<tr class="odd">
+<td align="center">Species</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">150</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">setosa</td>
+<td align="center">50</td>
+<td align="center">33.33</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">versicolor</td>
+<td align="center">50</td>
+<td align="center">33.33</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">virginica</td>
+<td align="center">50</td>
+<td align="center">33.33</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(htmlTable)
+
+<span class="co"># tidytable1 differentiate numeric and non-numeric variables</span>
+mtcars_df &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cyl=</span><span class="kw">factor</span>(cyl), <span class="dt">vs=</span><span class="kw">factor</span>(vs), <span class="dt">am=</span><span class="kw">factor</span>(am, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;automatic&quot;</span>, <span class="st">&quot;manual&quot;</span>))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as_tibble</span>()
+
+num_vars &lt;-<span class="st"> </span>mtcars_df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select_if</span>(is.numeric) <span class="op">%&gt;%</span><span class="st"> </span>names
+cat_vars &lt;-<span class="st"> </span>mtcars_df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select_if</span>(<span class="op">~!</span><span class="kw">is.numeric</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span>names            
+row_order &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Name=</span><span class="kw">c</span>(num_vars, cat_vars))
+
+## organized variables by numeric + categorical
+mtcars_tbl1 &lt;-<span class="st"> </span><span class="kw">tidytable1</span>(mtcars_df,
+                       <span class="dt">info_cols=</span><span class="kw">list</span>(<span class="dt">Label=</span><span class="kw">c</span>(<span class="dt">mpg=</span><span class="st">&quot;Miles/(US) gallon&quot;</span>, <span class="dt">cyl=</span><span class="st">&quot;Number of cylinders&quot;</span>, 
+                                              <span class="dt">disp=</span><span class="st">&quot;Displacement (cu.in.)&quot;</span>, <span class="dt">hp=</span><span class="st">&quot;Gross horsepower&quot;</span>,
+                                              <span class="dt">drat=</span><span class="st">&quot;Rear axle ratio&quot;</span>, <span class="dt">wt=</span><span class="st">&quot;Weight (1000 lbs)&quot;</span>,
+                                              <span class="dt">qsec=</span><span class="st">&quot;1/4 mile time&quot;</span>, <span class="dt">vs=</span><span class="st">&quot;V/S&quot;</span>, 
+                                              <span class="dt">am=</span><span class="st">&quot;Transmission&quot;</span>, <span class="dt">gear=</span><span class="st">&quot;Number of forward gears&quot;</span>,
+                                              <span class="dt">carb=</span><span class="st">&quot;Number of carburetors&quot;</span>),
+                                      <span class="dt">Source=</span><span class="kw">c</span>(<span class="dt">mpg=</span><span class="st">&quot;1974 Motor Trend&quot;</span>)),
+                       <span class="dt">num_cols=</span><span class="kw">c</span>(<span class="dt">mean=</span>mean, <span class="dt">sd=</span>sd),
+                       <span class="dt">row_order =</span> row_order) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pp_table1</span>(<span class="dt">pp_vars=</span><span class="kw">c</span>(<span class="st">&quot;Label&quot;</span>, <span class="st">&quot;Source&quot;</span>, <span class="st">&quot;#missing&quot;</span>))
+
+mtcars_tbl1 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">htmlTable</span>(<span class="dt">rnames =</span> <span class="ot">FALSE</span>,
+            <span class="dt">align=</span><span class="st">&quot;lll rrc rrr&quot;</span>,
+            <span class="dt">rgroup =</span> <span class="kw">c</span>(<span class="st">&quot;Numeric Variables&quot;</span>, <span class="st">&quot;Categorical Variables&quot;</span>),
+            <span class="dt">n.rgroup =</span> <span class="kw">c</span>(<span class="kw">length</span>(num_vars), <span class="kw">length</span>(cat_vars)))</code></pre></div>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Label</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Source</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>mean</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>sd</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Category</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>freq</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>%</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>#missing</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='9' style='font-weight: 900;'>Numeric Variables</td></tr>
+<tr>
+<td style='text-align: left;'>mpg</td>
+<td style='text-align: left;'>Miles/(US) gallon</td>
+<td style='text-align: left;'>1974 Motor Trend</td>
+<td style='text-align: right;'>20.09</td>
+<td style='text-align: right;'>6.03</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>disp</td>
+<td style='text-align: left;'>Displacement (cu.in.)</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>230.72</td>
+<td style='text-align: right;'>123.94</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>hp</td>
+<td style='text-align: left;'>Gross horsepower</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>146.69</td>
+<td style='text-align: right;'>68.56</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>drat</td>
+<td style='text-align: left;'>Rear axle ratio</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>3.6</td>
+<td style='text-align: right;'>0.53</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>wt</td>
+<td style='text-align: left;'>Weight (1000 lbs)</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>3.22</td>
+<td style='text-align: right;'>0.98</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>qsec</td>
+<td style='text-align: left;'>1/4 mile time</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>17.85</td>
+<td style='text-align: right;'>1.79</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>gear</td>
+<td style='text-align: left;'>Number of forward gears</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>3.69</td>
+<td style='text-align: right;'>0.74</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>carb</td>
+<td style='text-align: left;'>Number of carburetors</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'>2.81</td>
+<td style='text-align: right;'>1.62</td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr> 
+<tr><td colspan='9' style='font-weight: 900;'>Categorical Variables</td></tr>
+<tr>
+<td style='text-align: left;'>cyl</td>
+<td style='text-align: left;'>Number of cylinders</td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'>0</td>
+</tr>
+<tr>
+<td style='text-align: left;'></td>
+<td style='text-align: left;'></td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: right;'>11</td>
+<td style='text-align: right;'>34.38</td>
+<td style='text-align: right;'></td>
+</tr>
+<tr>
+<td style='text-align: left;'></td>
+<td style='text-align: left;'></td>
+<td style='text-align: left;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: right;'></td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: right;'>7</td>
+<td style='text-align: right;'>21.88</td>
+<td style='text-align: right;'></td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'>8</td>
+<td style='background-color: NA; text-align: right;'>14</td>
+<td style='background-color: NA; text-align: right;'>43.75</td>
+<td style='background-color: NA; text-align: right;'></td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'>vs</td>
+<td style='background-color: NA; text-align: left;'>V/S</td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'>0</td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'>0</td>
+<td style='background-color: NA; text-align: right;'>18</td>
+<td style='background-color: NA; text-align: right;'>56.25</td>
+<td style='background-color: NA; text-align: right;'></td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'>1</td>
+<td style='background-color: NA; text-align: right;'>14</td>
+<td style='background-color: NA; text-align: right;'>43.75</td>
+<td style='background-color: NA; text-align: right;'></td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'>am</td>
+<td style='background-color: NA; text-align: left;'>Transmission</td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'>0</td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: left;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: right;'></td>
+<td style='background-color: NA; text-align: center;'>automatic</td>
+<td style='background-color: NA; text-align: right;'>19</td>
+<td style='background-color: NA; text-align: right;'>59.38</td>
+<td style='background-color: NA; text-align: right;'></td>
+</tr>
+<tr style='background-color: NA;'>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: left;'></td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: left;'></td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: left;'></td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: right;'></td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: right;'></td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: center;'>manual</td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: right;'>13</td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: right;'>40.62</td>
+<td style='background-color: NA; border-bottom: 2px solid grey; text-align: right;'></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="related-projects" class="section level1">
+<h1>Related Projects</h1>
+<ul>
+<li><a href="https://github.com/kaz-yos/tableone">tableone</a></li>
+<li><a href="https://cran.r-project.org/web/packages/stargazer/">stargazer</a></li>
+</ul>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
