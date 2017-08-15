@@ -8,7 +8,7 @@ Description: Produces a tidy data frame that contains the common information inc
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-License: BSD_3_clause + file LICENSE
+License: BSD_2_clause + file LICENSE
 LazyData: TRUE
 Depends: R (>= 3.4.0)
 Imports:
