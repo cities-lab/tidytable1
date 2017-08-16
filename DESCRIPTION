@@ -18,5 +18,6 @@ Imports:
     tidyr
 Suggests:
     pander,
+    htmlTable,
     knitr
 VignetteBuilder: knitr

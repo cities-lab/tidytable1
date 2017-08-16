@@ -14,7 +14,7 @@
 #' @return A data frame containing the descriptive stats, by default containing mean and sd for numeric variables, Category, frequency, and `%` for categorical variables, and #missing for all variables.
 #' @import dplyr
 #' @import tibble
-#' @import purrr
+#' @importFrom purrr map map_lgl map2_dbl
 #' @import tidyr
 #' @importFrom stats sd
 #' @export
