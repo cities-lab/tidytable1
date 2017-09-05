@@ -2,12 +2,12 @@
 % Please edit documentation in R/pp_table1.R
 \name{pp_table1}
 \alias{pp_table1}
-\title{pretty prints tidy table1 data frame returned from \code{tidy_table1}}
+\title{pretty prints tidy table1 data frame returned from \code{tidytable1}}
 \usage{
 pp_table1(table1_df, pp_vars = c("#missing"))
 }
 \arguments{
-\item{table1_df}{A data_frame returned from tidy_table1.}
+\item{table1_df}{A data_frame returned from tidytable1.}
 
 \item{pp_vars}{A vector of table1 columns to be pretty print in addition to the 'Name' column.}
 }
@@ -15,5 +15,5 @@ pp_table1(table1_df, pp_vars = c("#missing"))
 A data frame with duplicate information removed and ready for print out (e.g. pass it to \code{pander::pander(ret, missing="")}).
 }
 \description{
-\code{pp_table1} pretty print the tidy table1 data frame produced by \code{tidy_table1} by removing duplicate information.
+\code{pp_table1} pretty print the tidy table1 data frame produced by \code{tidytable1} by removing duplicate information.
 }

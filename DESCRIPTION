@@ -1,6 +1,6 @@
 Package: tidytable1
 Type: Package
-Title: Creates Table1 Descriptive Statistics with tidyverse
+Title: Creates Table1 Descriptive Statistics with tidyverse packages
 Version: 0.1.0
 Author: Liming Wang  <lmwang@gmail.com> [aut, cre]
 Maintainer: Liming Wang <lmwang@gmail.com>
@@ -9,7 +9,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 License: BSD_2_clause + file LICENSE
-LazyData: TRUE
 Depends: R (>= 3.4.0)
 Imports:
     dplyr,
