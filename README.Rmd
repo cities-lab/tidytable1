@@ -61,5 +61,6 @@ mtcars_tbl1 %>%
 ```
 
 # Related Projects
+- [Gmisc](https://github.com/gforge/Gmisc)
 - [tableone](https://github.com/kaz-yos/tableone)
 - [stargazer](https://cran.r-project.org/web/packages/stargazer/)
