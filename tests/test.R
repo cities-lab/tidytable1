@@ -2,6 +2,18 @@ require(dplyr)
 library(tidytable1)
 library(pander)
 
+mtcars %>%
+   tidytable1()
+
+iris_species <- iris %>%
+  as_tibble() %>%
+  select(Species)
+
+tidytable1(iris_species)
+
+iris %>%
+  tidytable1()
+
 mtcars_df <- mtcars %>%
   mutate(cyl=factor(cyl), vs=factor(vs), am=factor(am)) %>%
   as_tibble()

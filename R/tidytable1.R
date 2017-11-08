@@ -7,6 +7,8 @@
 #' @param info_cols A list that will be used for informational columns in table1, for example, the label (description) and data source of variables. The names of the list will be used as column names in table1, while the names of value vector will be matched to column names in input_df.
 #' @param calc_cols A list of table1 columns to be calculated from functions.
 #' @param num_cols A list of table1 columns to be calculated from functions for numeric variables.
+#' @param custom_vars A vector of input_df columns for which custom_cols will be added.
+#' @param custom_cols A list of table1 columns to be calculated from functions for custom variables (custom_vars).
 #' @param col_order A vector according to which table1 columns will be ordered.
 #' @param row_order A list according to which table1 rows (variables in input_df) will be ordered.
 #' @param digits Number of digits for stats in table1 (Default 2).
@@ -24,6 +26,8 @@ tidytable1 <- function(input_df,
                         calc_cols=list("#missing"=function(x) sum(is.na(x))),
                         num_cols=list(mean=mean, sd=sd),
                         #cat_cols=list(),
+                        custom_vars=c(),
+                        custom_cols=list(),
                         col_order=c(),
                         row_order=list(),
                         digits=2,
@@ -54,50 +58,72 @@ tidytable1 <- function(input_df,
       spread(colname, colval)
   }
 
-  part_numeric <- trpx_df %>%
-    filter(._numeric) %>%
-    crossing(num_cols %>% enframe(name="colname", value="func")) %>%
-    mutate(colval=map2_dbl(value, func, ~`.y(.x)`(.x, .y, na.rm=T))) %>%
-    select(-c(value, func)) %>%
-    #mutate(mean=map_dbl(value, mean, na.rm=T),
-    #       sd = map_dbl(value, sd, na.rm=T)
-    #       )
-    spread(colname, colval)
+  part_numeric <- NULL
+  if (sum(trpx_df$._numeric) > 0)
+    part_numeric <- trpx_df %>%
+      filter(._numeric) %>%
+      crossing(num_cols %>% enframe(name="colname", value="func")) %>%
+      mutate(colval=map2_dbl(value, func, ~`.y(.x)`(.x, .y, na.rm=T))) %>%
+      select(-c(value, func)) %>%
+      #mutate(mean=map_dbl(value, mean, na.rm=T),
+      #       sd = map_dbl(value, sd, na.rm=T)
+      #       )
+      spread(colname, colval)
 
-  part_categorical_label <- trpx_df %>%
-    filter(!._numeric) %>%
-    select(-value, -._numeric)
+  part_categorical <- NULL
+  if (sum(!trpx_df$._numeric) > 0) {
+    part_categorical_label <- trpx_df %>%
+      filter(!._numeric) %>%
+      select(-value, -._numeric)
 
-  part_categorical <- trpx_df %>%
-    filter(!._numeric) %>%
-    select(-starts_with("._")) %>%
-    mutate(freq_df=map(value, ~table(.x, dnn="Category") %>% as.data.frame),
-           Category=map(freq_df, "Category"),
-           Category=map(Category, as.character),
-           freq=map(freq_df, "Freq"),
-           `%` = map(freq, ~100 * .x /sum(.x))
-           ) %>%
-    #mutate(Category=map(value, ~(table(.) %>% dimnames(.))[[1]]),
-    #       freq=map(value, ~table(.) %>% as.integer),
-    #       `%` = map(freq, ~100 * .x /sum(.x))) %>%
-    select(-c(value, freq_df)) %>%
-    unnest()
+    part_categorical <- trpx_df %>%
+      filter(!._numeric) %>%
+      select(-starts_with("._")) %>%
+      mutate(freq_df=map(value, ~table(.x, dnn="Category") %>% as.data.frame),
+             Category=map(freq_df, "Category"),
+             Category=map(Category, as.character),
+             freq=map(freq_df, "Freq"),
+             `%` = map(freq, ~100 * .x /sum(.x))
+             ) %>%
+      #mutate(Category=map(value, ~(table(.) %>% dimnames(.))[[1]]),
+      #       freq=map(value, ~table(.) %>% as.integer),
+      #       `%` = map(freq, ~100 * .x /sum(.x))) %>%
+      select(-c(value, freq_df)) %>%
+      unnest()
 
-  if (add_cat_header_row)
-    part_categorical <- bind_rows(part_categorical_label, part_categorical) %>%
-      arrange(Name)
+    if (add_cat_header_row)
+      part_categorical <- bind_rows(part_categorical_label, part_categorical) %>%
+        arrange(Name)
+  }
 
-  combined_df <- bind_rows(part_numeric, part_categorical)
+  combined_df <- NULL
+  if (!is.null(part_numeric) && nrow(part_numeric) > 0)
+    combined_df <- part_numeric
+  if (!is.null(part_categorical) && nrow(part_categorical) > 0 )
+    combined_df <- bind_rows(combined_df, part_categorical)
 
   if (!is.null(calc_cols))
     combined_df <- combined_df %>% left_join(calc_cols_df, by="Name")
+
+  if (!is.null(custom_vars) & length(custom_vars)>0) {
+    stopifnot(length(custom_cols)>0)
+
+    custom_cols_df <- trpx_df %>%
+      filter(Name %in% custom_vars) %>%
+      crossing(custom_cols %>% enframe(name="colname", value="func")) %>%
+      mutate(colval=map2_dbl(value, func, ~`.y(.x)`(.x, .y))) %>%
+      select(Name, colname, colval) %>%
+      spread(colname, colval)
+
+    combined_df <- combined_df %>% left_join(custom_cols_df, by="Name")
+  }
 
   if (is.null(col_order))
     col_order <- c("Name",
                    names(info_cols),
                    names(num_cols),
                    c("Category", "freq", "%"),
-                   names(calc_cols))
+                   names(calc_cols), names(custom_cols))
 
   combined_df <- combined_df %>%
     select(one_of(col_order))
@@ -116,8 +142,10 @@ tidytable1 <- function(input_df,
     select(-._n)
 
   combined_df %>%
-    mutate_if(is.double, round, digits=digits)
+    mutate_if(is.numeric, round, digits=digits)
 }
+
+
 
 #------------------------------------------------------
 #' helper function call `.y(.x)` for functional programming, replacing `purrr::at_depth(.x, 0, .y, ...)` which is deprecated.
