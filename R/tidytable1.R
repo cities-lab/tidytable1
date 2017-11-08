@@ -125,6 +125,7 @@ tidytable1 <- function(input_df,
                    c("Category", "freq", "%"),
                    names(calc_cols), names(custom_cols))
 
+  col_order <- col_order[col_order %in% names(combined_df)]
   combined_df <- combined_df %>%
     select(one_of(col_order))
 

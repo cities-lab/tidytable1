@@ -6,8 +6,8 @@
 \usage{
 tidytable1(input_df, info_cols = list(), calc_cols = list(`#missing` =
   function(x) sum(is.na(x))), num_cols = list(mean = mean, sd = sd),
-  col_order = c(), row_order = list(), digits = 2,
-  add_cat_header_row = TRUE)
+  custom_vars = c(), custom_cols = list(), col_order = c(),
+  row_order = list(), digits = 2, add_cat_header_row = TRUE)
 }
 \arguments{
 \item{input_df}{A data_frame for which table1 (the descriptive stats) is produced.}
@@ -17,6 +17,10 @@ tidytable1(input_df, info_cols = list(), calc_cols = list(`#missing` =
 \item{calc_cols}{A list of table1 columns to be calculated from functions.}
 
 \item{num_cols}{A list of table1 columns to be calculated from functions for numeric variables.}
+
+\item{custom_vars}{A vector of input_df columns for which custom_cols will be added.}
+
+\item{custom_cols}{A list of table1 columns to be calculated from functions for custom variables (custom_vars).}
 
 \item{col_order}{A vector according to which table1 columns will be ordered.}
 
