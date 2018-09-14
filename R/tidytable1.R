@@ -155,7 +155,7 @@ tidytable1 <- function(input_df,
 #' @param .y The function/formula to be called with argument `.x`.
 #' @param ... Additional arguments to `.y()`.
 #' @return Whatever is returned from `.y(.x, ...)`.
-#'
+#
 
 `.y(.x)` <- function(.x, .y, ...) {
   #at_depth(.x, 0, .y, ...)

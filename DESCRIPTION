@@ -7,7 +7,7 @@ Maintainer: Liming Wang <lmwang@gmail.com>
 Description: Produces a tidy data frame that contains the common information included in Table 1 of academic papers for an input data frame.
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 License: BSD_2_clause + file LICENSE
 Depends: R (>= 3.4.0)
 Imports:
