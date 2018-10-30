@@ -161,3 +161,21 @@ tidytable1 <- function(input_df,
   #at_depth(.x, 0, .y, ...)
   map(list(.x), .y, ...)[[1]]
 }
+
+## quiets concerns of R CMD check re: non-standard evaluation via tidyverse
+## per suggestion of Hadley Wickham (https://stackoverflow.com/a/12429344/688693)
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("._n",
+                                                        "._numeric",
+                                                        "Category",
+                                                        "Name",
+                                                        "colname",
+                                                        "colval",
+                                                        "freq",
+                                                        "freq_df",
+                                                        "func",
+                                                        "name",
+                                                        "value"
+))
+
+# set the default stringsAsFactors option to FALSE
+options(stringsAsFactors=FALSE)

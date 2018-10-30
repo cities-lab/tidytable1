@@ -1,13 +1,11 @@
 ---
-title: "tidytable1 Introduction"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{tidytable1 Introduction}
-  %\VignetteEncoding{UTF-8}
+title: "tidytable1"
+author: "Liming Wang"
+date: "8/15/2017"
+output: html_document
 ---
 
-Creates Table1 Descriptive Statistics with tidyverse utils
+Creates a Table1 for Descriptive Statistics with tidyverse utils
 
 # Installation
 
@@ -17,9 +15,9 @@ devtools::install_github("cities-lab/tidytable1")
 
 # Usage
 ```{r, echo=TRUE, eval=TRUE}
-suppressMessages(library(tidytable1))
-suppressMessages(library(dplyr))
-suppressMessages(library(pander))
+library(tidytable1)
+library(dplyr)
+library(pander)
 
 iris_tbl1 <- tidytable1(iris,
                         calc_cols=list(n=function(x) length(x)),
@@ -62,6 +60,16 @@ mtcars_tbl1 %>%
             n.rgroup = c(length(num_vars), length(cat_vars)))
 ```
 
+# TODO
+
+- Enable stats by a grouping variable similar the behavior in `tableone`
+- Add hypothesis testing functionality
+
 # Related Projects
+- [Gmisc](https://github.com/gforge/Gmisc)
 - [tableone](https://github.com/kaz-yos/tableone)
 - [stargazer](https://cran.r-project.org/web/packages/stargazer/)
+
+# Build Status
+
+[![Build Status](https://travis-ci.org/cities-lab/tidytable1.svg?branch=master)](travis-ci.org/cities-lab/tidytable1)

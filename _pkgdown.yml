@@ -1,0 +1,12 @@
+navbar:
+  title: "tidytable1"
+  left:
+  - text: "Vignettes"
+    href: articles/index.html
+  - text: "References"
+    href: reference/index.html
+
+  right:
+  - icon: fa-github
+    href: https://github.com/cities-lab/tidytable1
+

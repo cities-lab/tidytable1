@@ -1,25 +1,10 @@
----
-title: "tidytable1 Introduction"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{tidytable1 Introduction}
-  %\VignetteEncoding{UTF-8}
----
+## ---- echo=TRUE, eval=FALSE----------------------------------------------
+#  devtools::install_github("cities-lab/tidytable1")
 
-Creates Table1 Descriptive Statistics with tidyverse utils
-
-# Installation
-
-```{r, echo=TRUE, eval=FALSE}
-devtools::install_github("cities-lab/tidytable1")
-```
-
-# Usage
-```{r, echo=TRUE, eval=TRUE}
-suppressMessages(library(tidytable1))
-suppressMessages(library(dplyr))
-suppressMessages(library(pander))
+## ---- echo=TRUE, eval=TRUE, message=FALSE--------------------------------
+library(tidytable1)
+library(dplyr)
+library(pander)
 
 iris_tbl1 <- tidytable1(iris,
                         calc_cols=list(n=function(x) length(x)),
@@ -28,9 +13,8 @@ iris_tbl1 <- tidytable1(iris,
 
 iris_tbl1 %>%
   pander(missing="")
-```
 
-```{r, echo=TRUE, eval=TRUE, results="asis"}
+## ---- echo=TRUE, eval=TRUE, results="asis"-------------------------------
 library(htmlTable)
 
 # tidytable1 differentiate numeric and non-numeric variables
@@ -60,8 +44,4 @@ mtcars_tbl1 %>%
             align="lll rrc rrr",
             rgroup = c("Numeric Variables", "Categorical Variables"),
             n.rgroup = c(length(num_vars), length(cat_vars)))
-```
 
-# Related Projects
-- [tableone](https://github.com/kaz-yos/tableone)
-- [stargazer](https://cran.r-project.org/web/packages/stargazer/)
